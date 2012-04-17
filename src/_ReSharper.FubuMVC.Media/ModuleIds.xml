@@ -1,0 +1,4 @@
+<Modules>
+  <Module PersistentId="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E" ModuleId="FubuMVC.Media" />
+  <Module PersistentId="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2" ModuleId="FubuMVC.Media.Testing" />
+</Modules>
