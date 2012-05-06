@@ -1,8 +1,6 @@
 src/packages
 bottles.cmd
 fubu.cmd
-
-
 obj
 bin
 src/CommonAssemblyInfo.cs

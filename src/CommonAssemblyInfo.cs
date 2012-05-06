@@ -1,11 +1,11 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
-[assembly: AssemblyDescription("0.9.5.50830")]
+[assembly: AssemblyDescription("0.9.5.50834")]
 [assembly: AssemblyProduct("FubuMVC.Media")]
 [assembly: AssemblyCopyright("Copyright 2012 Jeremy D. Miller, et al. All rights reserved.")]
-[assembly: AssemblyTrademark("ff1a8b8e437152f89e09f9a4c7833c63bd1ee28f")]
+[assembly: AssemblyTrademark("07c2a5d04b326b7f14263773d9920b4df839fe89")]
 [assembly: AssemblyVersion("0.9.5.0")]
-[assembly: AssemblyFileVersion("0.9.5.50830")]
+[assembly: AssemblyFileVersion("0.9.5.50834")]
 
 [assembly: AssemblyInformationalVersion("0.9.5.0")]
 
