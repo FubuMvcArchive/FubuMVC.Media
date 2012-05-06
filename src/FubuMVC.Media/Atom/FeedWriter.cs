@@ -4,7 +4,7 @@ using System.ServiceModel.Syndication;
 using System.Text;
 using System.Xml;
 using FubuCore;
-using FubuMVC.Core.Resources.Conneg.New;
+using FubuMVC.Core.Resources.Conneg;
 using FubuMVC.Core.Runtime;
 using FubuMVC.Core.Urls;
 using FubuMVC.Media.Projections;

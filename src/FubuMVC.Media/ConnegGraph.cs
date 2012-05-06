@@ -4,7 +4,7 @@ using System.Linq;
 using FubuCore;
 using FubuCore.Util;
 using FubuMVC.Core.Registration;
-using FubuMVC.Core.Resources.Conneg.New;
+using FubuMVC.Core.Resources.Conneg;
 
 namespace FubuMVC.Media
 {

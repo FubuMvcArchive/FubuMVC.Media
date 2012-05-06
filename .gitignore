@@ -1,1 +1,11 @@
 src/packages
+bottles.cmd
+fubu.cmd
+
+
+obj
+bin
+src/CommonAssemblyInfo.cs
+*.csproj.user
+_ReSharper.*
+results

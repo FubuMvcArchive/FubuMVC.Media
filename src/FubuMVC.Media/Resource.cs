@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.ObjectGraph;
-using FubuMVC.Core.Resources.Conneg.New;
+using FubuMVC.Core.Resources.Conneg;
 using FubuMVC.Core.Runtime.Formatters;
 using FubuMVC.Media.Projections;
 using FubuMVC.Media.Xml;

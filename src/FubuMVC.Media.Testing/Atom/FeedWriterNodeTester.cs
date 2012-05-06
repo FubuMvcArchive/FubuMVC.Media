@@ -4,7 +4,7 @@ using FubuCore;
 using FubuMVC.Core;
 using FubuMVC.Core.Registration.Nodes;
 using FubuMVC.Core.Registration.ObjectGraph;
-using FubuMVC.Core.Resources.Conneg.New;
+using FubuMVC.Core.Resources.Conneg;
 using FubuMVC.Media.Atom;
 using FubuMVC.Media.Projections;
 using FubuMVC.Media.Testing.Xml;

@@ -8,19 +8,32 @@
   </SettingsComponent>
   <RecentFiles>
     <RecentFiles>
-      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/f:packages.config" caret="52" fromTop="1" />
       <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/d:Projections/f:AccessorProjection.cs" caret="916" fromTop="28" />
-      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:packages.config" caret="372" fromTop="7" />
       <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/d:Xml/f:AccessorToXmlProjectionTester.cs" caret="875" fromTop="27" />
-      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/d:Atom/f:FeedWriterNode.cs" caret="210" fromTop="6" />
-      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:MediaWriter.cs" caret="88" fromTop="1" />
-      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/d:Atom/f:FeedWriter.cs" caret="350" fromTop="12" />
-      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:Resource.cs" caret="563" fromTop="15" />
-      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:ConnegGraph.cs" caret="1077" fromTop="30" />
+      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/f:packages.config" caret="321" fromTop="5" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:packages.config" caret="372" fromTop="7" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:ConnegGraph.cs" caret="1340" fromTop="25" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/d:Atom/f:FeedWriter.cs" caret="374" fromTop="12" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:MediaWriter.cs" caret="258" fromTop="8" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:MediaWriterNode.cs" caret="243" fromTop="7" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:Resource.cs" caret="999" fromTop="25" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/d:Atom/f:FeedWriterNode.cs" caret="132" fromTop="2" />
+      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/f:Resource_integrated_registration_tester.cs" caret="222" fromTop="6" />
+      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/d:Atom/f:FeedWriterNodeTester.cs" caret="222" fromTop="5" />
     </RecentFiles>
     <RecentEdits>
-      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/f:packages.config" caret="52" fromTop="1" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:packages.config" caret="98" fromTop="2" />
+      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/f:packages.config" caret="321" fromTop="5" />
       <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:packages.config" caret="98" fromTop="1" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:ConnegGraph.cs" caret="181" fromTop="6" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/d:Atom/f:FeedWriter.cs" caret="189" fromTop="6" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/d:Atom/f:FeedWriterNode.cs" caret="134" fromTop="3" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:MediaWriter.cs" caret="90" fromTop="2" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:MediaWriterNode.cs" caret="134" fromTop="3" />
+      <File id="8C256AEE-489A-4E9E-9D34-2CB9B7C11B6E/f:Resource.cs" caret="220" fromTop="6" />
+      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/d:Atom/f:FeedWriterNodeTester.cs" caret="186" fromTop="5" />
+      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/d:Atom/f:FeedWriterNodeTester.cs" caret="1918" fromTop="25" />
+      <File id="EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2/f:Resource_integrated_registration_tester.cs" caret="222" fromTop="6" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

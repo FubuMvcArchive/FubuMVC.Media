@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using FubuCore;
-using FubuMVC.Core.Resources.Conneg.New;
+using FubuMVC.Core.Resources.Conneg;
 using FubuMVC.Core.Runtime;
 using FubuMVC.Core.Urls;
 using FubuMVC.Media.Projections;

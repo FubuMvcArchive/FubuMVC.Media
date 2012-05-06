@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FubuMVC.Core.Registration.ObjectGraph;
-using FubuMVC.Core.Resources.Conneg.New;
+using FubuMVC.Core.Resources.Conneg;
 
 namespace FubuMVC.Media.Atom
 {
