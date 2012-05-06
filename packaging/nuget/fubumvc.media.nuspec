@@ -16,6 +16,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\src\FubuMVC.Media\bin\Release" target="lib\net40" />
+    <file src="..\..\src\FubuMVC.Media\bin\Release\FubuMVC.Media.*" target="lib\net40" />
   </files>
 </package>

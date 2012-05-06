@@ -7,3 +7,4 @@ src/CommonAssemblyInfo.cs
 *.csproj.user
 _ReSharper.*
 results
+artifacts
