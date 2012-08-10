@@ -17,7 +17,7 @@ namespace FubuMVC.Media.Testing
             var registry = new FubuRegistry();
             registry.Services<ResourcesServiceRegistry>();
 
-            theServices = registry.BuildGraph().Services;
+            theServices = BehaviorGraph.BuildFrom(registry).Services;
         }
         
         [Test]

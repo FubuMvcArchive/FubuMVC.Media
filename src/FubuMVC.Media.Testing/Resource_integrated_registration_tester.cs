@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 using FubuCore;
 using FubuMVC.Core;
@@ -12,6 +13,7 @@ using FubuMVC.Media.Xml;
 using NUnit.Framework;
 using System.Linq;
 using FubuTestingSupport;
+using System.Collections.Generic;
 
 namespace FubuMVC.Media.Testing
 {
@@ -33,7 +35,7 @@ namespace FubuMVC.Media.Testing
 
             registry.Media.ApplyContentNegotiationToActions(x => x.HandlerType == typeof (RestController1) && !x.Method.Name.StartsWith("Not"));
 
-            theBehaviorGraph = registry.BuildGraph();
+            theBehaviorGraph = BehaviorGraph.BuildFrom(registry);
             theConnegGraph = new ConnegGraph(theBehaviorGraph);
         }
 
@@ -66,8 +68,12 @@ namespace FubuMVC.Media.Testing
         [Test]
         public void conneg_graph_can_find_all_input_nodes_for_a_type()
         {
-            var nodes = theConnegGraph.InputNodesFor<Input1>();
-            nodes.Where(x => x.ParentChain() != null).Select(x => x.Next.As<ActionCall>().Method.Name)
+            var nodes = theConnegGraph.InputNodesFor<Input1>().Where(x => x.ParentChain() != null);
+
+            nodes.Each(x => Debug.WriteLine(x.Next.As<ActionCall>().Method.Name));
+
+
+            nodes.Select(x => x.Next.As<ActionCall>().Method.Name)
                 .ShouldHaveTheSameElementsAs("Find", "Method4");
         }
 
@@ -154,7 +160,7 @@ namespace FubuMVC.Media.Testing
             var writerNode = connegOutput.Writers.Last().As<MediaWriterNode>();
 
             // Assert the xml media
-            var objectDef = writerNode.As<IContainerModel>().ToObjectDef(DiagnosticLevel.None)
+            var objectDef = writerNode.As<IContainerModel>().ToObjectDef()
                 .FindDependencyDefinitionFor<IMediaWriter<Address>>();
 
 
@@ -185,9 +191,9 @@ namespace FubuMVC.Media.Testing
 
             registry.Applies.ToThisAssembly();
             registry.Actions.IncludeType<RestController1>();
-            
 
-            var graph = registry.BuildGraph();
+
+            var graph = BehaviorGraph.BuildFrom(registry);
 
             var connegOutput = graph
                 .BehaviorFor<RestController1>(x => x.Find(null))
@@ -196,7 +202,7 @@ namespace FubuMVC.Media.Testing
             var writerNode = connegOutput.Writers.Single().As<MediaWriterNode>();
 
             // Assert the xml media
-            var objectDef = writerNode.As<IContainerModel>().ToObjectDef(DiagnosticLevel.None)
+            var objectDef = writerNode.As<IContainerModel>().ToObjectDef()
                 .FindDependencyDefinitionFor <IMediaWriter<Address>>();
 
 
@@ -267,6 +273,7 @@ namespace FubuMVC.Media.Testing
                 return null;
             }
 
+            [FubuPartial]
             public Output1 NotMe(Input1 input)
             {
                 return null;

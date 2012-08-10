@@ -59,7 +59,7 @@ namespace FubuMVC.Media.Testing.Atom
         {
             var objectDef = new FeedWriterNode<Address>(new Feed<Address>(), typeof (AddressEnumerable))
                 .As<IContainerModel>()
-                .ToObjectDef(DiagnosticLevel.None)
+                .ToObjectDef()
                 .FindDependencyDefinitionFor<IMediaWriter<IEnumerable<Address>>>();
 
 
@@ -72,7 +72,7 @@ namespace FubuMVC.Media.Testing.Atom
             var theFeed = new Feed<Address>();
             var objectDef = new FeedWriterNode<Address>(theFeed,typeof (AddressEnumerable))
                 .As<IContainerModel>()
-                .ToObjectDef(DiagnosticLevel.None)
+                .ToObjectDef()
                 .FindDependencyDefinitionFor<IMediaWriter<IEnumerable<Address>>>();
 
 

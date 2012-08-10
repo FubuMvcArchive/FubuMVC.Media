@@ -29,7 +29,7 @@ namespace FubuMVC.Media.Testing.Atom
             registry.Media.ApplyContentNegotiationToActions(call => true);
             registry.Policies.Add(new ConnegAttachmentPolicy(new TypePool(Assembly.GetExecutingAssembly())));
 
-            theGraph = registry.BuildGraph();
+            theGraph = BehaviorGraph.BuildFrom(registry);
         }
 
         [Test]
