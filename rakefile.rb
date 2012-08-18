@@ -8,12 +8,6 @@ if( ! buildsupportfiles.any? )
   buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
 end
 
-stylefiles = Dir["#{File.dirname(__FILE__)}/src/SurgeryLogistics.Web/content/styles/*.css"]
-
-if( ! stylefiles.any? )
-  sh 'git submodule update --init' unless stylefiles.any?
-end
-
 include FileTest
 require 'albacore'
 load "VERSION.txt"
