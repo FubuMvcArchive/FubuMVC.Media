@@ -1,4 +1,5 @@
-COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
+COMPILE_TARGET = ENV['config'].nil? ? "Debug" : ENV['config'] # Keep this in sync w/ VS settings since Mono is case-sensitive
+CLR_TOOLS_VERSION = "v4.0.30319"
 
 buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
 
@@ -7,6 +8,11 @@ if( ! buildsupportfiles.any? )
   sh 'git submodule update --init' unless buildsupportfiles.any?
   buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
 end
+
+# nope, we still don't have buildsupport. Something went wrong.
+raise "Run `git submodule update --init` to populate your buildsupport folder." unless buildsupportfiles.any?
+
+buildsupportfiles.each { |ext| load ext }
 
 include FileTest
 require 'albacore'
