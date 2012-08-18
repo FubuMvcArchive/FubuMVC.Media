@@ -4,7 +4,11 @@ fubu.cmd
 obj
 bin
 src/CommonAssemblyInfo.cs
-*.csproj.user
 _ReSharper.*
+*.csproj.user
+*.resharper.user
+*.ReSharper.user
+*.suo
+*.cache
 results
 artifacts

@@ -1,9 +1,18 @@
-COMPILE_TARGET = ENV['config'].nil? ? "Debug" : ENV['config']
-CLR_TOOLS_VERSION = "v4.0.30319"
+COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
 
 buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
-raise "Run `git submodule update --init` to populate your buildsupport folder." unless buildsupportfiles.any?
-buildsupportfiles.each { |ext| load ext }
+
+if( ! buildsupportfiles.any? )
+  # no buildsupport, let's go get it for them.
+  sh 'git submodule update --init' unless buildsupportfiles.any?
+  buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
+end
+
+stylefiles = Dir["#{File.dirname(__FILE__)}/src/SurgeryLogistics.Web/content/styles/*.css"]
+
+if( ! stylefiles.any? )
+  sh 'git submodule update --init' unless stylefiles.any?
+end
 
 include FileTest
 require 'albacore'
