@@ -109,6 +109,35 @@ namespace FubuMVC.Media.Testing.Atom
 
             item.LastUpdatedTime.Date.ShouldEqual(subject.Updated.Date);
         }
+
+        [Test]
+        public void modify_sets_property()
+        {
+            var subject = new ItemSubject { Title = "Monty Python" };
+            var target = new SimpleValues<ItemSubject>(subject);
+            var item = new SyndicationItem();
+
+            var map = new FeedItem<ItemSubject>().As<IFeedItem<ItemSubject>>();
+            map.ModifyItem(x => x.Title, (syn, val) => syn.Content = val.ToContent());
+            map.ConfigureItem(item, target);
+
+            item.Content.As<TextSyndicationContent>().Text
+                .ShouldEqual(subject.Title);
+        }
+
+        [Test]
+        public void modify_with_null_ignores_it()
+        {
+            var subject = new ItemSubject { Title = null };
+            var target = new SimpleValues<ItemSubject>(subject);
+            var item = new SyndicationItem();
+
+            var map = new FeedItem<ItemSubject>().As<IFeedItem<ItemSubject>>();
+            map.ModifyItem(x => x.Title, (syn, val) => syn.Content = val.ToContent());
+            map.ConfigureItem(item, target);
+
+            item.Content.ShouldBeNull();            
+        }
     }
 
     public class ItemSubject

@@ -10,6 +10,7 @@ namespace FubuMVC.Media.Atom
     public interface IFeedItem<T>
     {
         void ConfigureItem(SyndicationItem item, IValues<T> target);
+        void ModifyItem<TArg>(Expression<Func<T, TArg>> property, Action<SyndicationItem, TArg> modification);
     }
 
     public class FeedItem<T> : IFeedItem<T>
@@ -36,20 +37,24 @@ namespace FubuMVC.Media.Atom
             _modifications.Each(x => x(target, item));
         }
 
-        private void modify<TArg>(Expression<Func<T, TArg>> property, Action<SyndicationItem, TArg> modification)
+        void IFeedItem<T>.ModifyItem<TArg>(Expression<Func<T, TArg>> expression, Action<SyndicationItem, TArg> modification)
         {
-            var accessor = ReflectionHelper.GetAccessor(property);
+            modify(expression, modification);
+        }
+
+        private void modify<TArg>(Expression<Func<T, TArg>> expression, Action<SyndicationItem, TArg> modification)
+        {
+            var accessor = ReflectionHelper.GetAccessor(expression);
             alter = (target, item) =>
             {
                 var value = target.ValueFor(accessor);
 
                 if (value != null)
                 {
-                    modification(item, (TArg) value);
+                    modification(item, (TArg)value);
                 }
             };
         }
-
 
         public void Title(Expression<Func<T, string>> expression)
         {
@@ -63,8 +68,7 @@ namespace FubuMVC.Media.Atom
 
         public void UpdatedByProperty(Expression<Func<T, DateTime>> property)
         {
-            var accessor = ReflectionHelper.GetAccessor(property);
-            alter = (target, item) => item.LastUpdatedTime = (DateTime) target.ValueFor(accessor);
+            modify(property, (item, value) => item.LastUpdatedTime = value);
         }
     }
 }
