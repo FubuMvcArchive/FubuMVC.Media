@@ -6,6 +6,7 @@ using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Xml;
+using FubuCore;
 using FubuLocalization;
 using FubuMVC.Core.Runtime;
 using FubuMVC.Media.Atom;
@@ -127,9 +128,18 @@ namespace FubuMVC.Media.Testing.Atom
             theWriter.Write("application/atom+xml", new FeedTargetSource());
 
             output.ContentType.ShouldEqual("application/atom+xml");
+            output.OutputStream().ReadAllText()
+                .ShouldContain("<Item xmlns=\"\"><City>Dallas</City><Name>The second item</Name></Item>");
+        }
 
-            var streamContent = new StreamReader(output.OutputStream()).ReadToEnd();
-            streamContent.ShouldContain("<Item xmlns=\"\"><City>Dallas</City><Name>The second item</Name></Item>");
+        [Test]
+        [Platform(Exclude = "Mono")]
+        public void the_resulting_feed_uses_utf8()
+        {
+            theWriter.Write("application/atom+xml", new FeedTargetSource());
+            
+            output.OutputStream().ReadAllText()
+                .ShouldContain("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
         }
     }
 
