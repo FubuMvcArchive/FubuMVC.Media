@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text;
@@ -126,7 +127,9 @@ namespace FubuMVC.Media.Testing.Atom
             theWriter.Write("application/atom+xml", new FeedTargetSource());
 
             output.ContentType.ShouldEqual("application/atom+xml");
-            output.ToString().ShouldContain("<Item xmlns=\"\"><City>Dallas</City><Name>The second item</Name></Item>");
+
+            var streamContent = new StreamReader(output.OutputStream()).ReadToEnd();
+            streamContent.ShouldContain("<Item xmlns=\"\"><City>Dallas</City><Name>The second item</Name></Item>");
         }
     }
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text;
@@ -30,15 +31,20 @@ namespace FubuMVC.Media.Atom
         {
             var source = new EnumerableFeedSource<T>(resource);
             var feed = BuildFeed(source);
-
-            var builder = new StringBuilder();
-            var writer = XmlWriter.Create(builder);
             var formatter = new Atom10FeedFormatter(feed);
 
-            formatter.WriteTo(writer);
-            writer.Close();
+            _writer.Write(mimeType, output =>
+            {
+                var settings = new XmlWriterSettings
+                {
+                    Encoding = Encoding.UTF8                    
+                };
 
-            _writer.Write(mimeType, builder.ToString());
+                using (var xml = XmlWriter.Create(output, settings))
+                {
+                    formatter.WriteTo(xml);                        
+                }                                                   
+            });
         }
 
         public IEnumerable<string> Mimetypes
