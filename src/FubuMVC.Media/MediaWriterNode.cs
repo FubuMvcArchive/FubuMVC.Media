@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FubuCore.Descriptions;
 using FubuMVC.Core.Registration.ObjectGraph;
 using FubuMVC.Core.Resources.Conneg;
 using FubuMVC.Media.Projections;
@@ -23,6 +24,11 @@ namespace FubuMVC.Media
         public MediaDependency Links { private set; get; }
         public MediaDependency Projection { private set; get; }
         public MediaDependency Document { private set; get; }
+
+        protected override void createDescription(Description description)
+        {
+            description.Title = "Projection Media for " + _resourceType.Name;
+        }
 
         public override Type ResourceType
         {

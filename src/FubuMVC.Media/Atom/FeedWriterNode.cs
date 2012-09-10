@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FubuCore.Descriptions;
 using FubuMVC.Core.Registration.ObjectGraph;
 using FubuMVC.Core.Resources.Conneg;
 
@@ -22,6 +23,11 @@ namespace FubuMVC.Media.Atom
         }
 
         public Type InputType { get; set; }
+
+        protected override void createDescription(Description description)
+        {
+            description.Title = "Atom Feed of " + typeof (T).Name;
+        }
 
         public override Type ResourceType
         {
