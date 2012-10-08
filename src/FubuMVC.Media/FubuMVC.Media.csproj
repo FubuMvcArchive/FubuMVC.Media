@@ -91,6 +91,7 @@
     <Compile Include="Projections\IProjection.cs" />
     <Compile Include="Projections\IProjectionContext.cs" />
     <Compile Include="Projections\IProjectionRunner.cs" />
+    <Compile Include="Projections\IProjectMyself.cs" />
     <Compile Include="Projections\IValues.cs" />
     <Compile Include="Projections\IValueSource.cs" />
     <Compile Include="Projections\IValueStream.cs" />

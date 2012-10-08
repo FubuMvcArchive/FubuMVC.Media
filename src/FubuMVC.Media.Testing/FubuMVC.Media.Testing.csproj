@@ -105,6 +105,7 @@
     <Compile Include="Projections\EnumerableProjectionIntegratedTester.cs" />
     <Compile Include="Projections\ProjectionContextTester.cs" />
     <Compile Include="Projections\ProjectionRunnerTester.cs" />
+    <Compile Include="Projections\ProjectMyself_handling_in_an_accessor_projection.cs" />
     <Compile Include="Projections\SimpleValueSource.cs" />
     <Compile Include="Projections\ValueSourceTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

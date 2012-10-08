@@ -27,10 +27,7 @@ namespace FubuMVC.Media.Projections
 
         public AccessorProjection<T, TValue> Formatted()
         {
-            source = context =>
-            {
-                return context.FormattedValueOf(_accessor);
-            };
+            source = context => context.FormattedValueOf(_accessor);
 
             return this;
         }

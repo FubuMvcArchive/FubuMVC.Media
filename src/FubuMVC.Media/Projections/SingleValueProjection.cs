@@ -1,4 +1,5 @@
 using System;
+using FubuCore;
 
 namespace FubuMVC.Media.Projections
 {
@@ -16,7 +17,17 @@ namespace FubuMVC.Media.Projections
 
         public void Write(IProjectionContext<T> context, IMediaNode node)
         {
-            node.SetAttribute(attributeName, source(context));
+            var value = source(context);
+            if (value is IProjectMyself)
+            {
+                value.As<IProjectMyself>().Project(attributeName, node);
+            }
+            else
+            {
+                node.SetAttribute(attributeName, value);
+            }
+
+            
         }
     }
 }
