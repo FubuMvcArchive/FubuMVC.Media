@@ -82,7 +82,7 @@ namespace FubuMVC.Media.Testing
             return UrlFor(typeof(TController), ReflectionHelper.GetMethod(expression), categoryOrHttpMethod);
         }
 
-        public string UrlForAsset(AssetFolder? folder, string name)
+        public string UrlForAsset(AssetFolder folder, string name)
         {
             throw new NotImplementedException();
         }
