@@ -26,11 +26,21 @@ namespace FubuMVC.Media.Projections
             }
         }
 
+        /// <summary>
+        /// Use an IValueProjector strategy to override how the projection is done for a complex object
+        /// </summary>
+        /// <typeparam name="TProjector"></typeparam>
+        /// <returns></returns>
         public AccessorProjection<T, TValue> ProjectWith<TProjector>() where TProjector : IValueProjector<TValue>, new()
         {
             return ProjectWith(new TProjector());
         } 
 
+        /// <summary>
+        /// Use an IValueProjector strategy to override how the projection is performed for a complex object
+        /// </summary>
+        /// <param name="projector"></param>
+        /// <returns></returns>
         public AccessorProjection<T, TValue> ProjectWith(IValueProjector<TValue> projector)
         {
             _inner = new ExternallyFormattedValueProjector<T, TValue>(_accessor, projector)
@@ -42,17 +52,31 @@ namespace FubuMVC.Media.Projections
 
         } 
 
+        /// <summary>
+        /// Helper method to build AccessorProjection objects individually
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public static AccessorProjection<T, TValue> For(Expression<Func<T, TValue>> expression)
         {
             return new AccessorProjection<T, TValue>(ReflectionHelper.GetAccessor(expression));
         }
 
+        /// <summary>
+        /// Overrides the attribute name in the projection for this accessor
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public AccessorProjection<T, TValue> Name(string value)
         {
             _inner.AttributeName = value;
             return this;
         }
 
+        /// <summary>
+        /// Applies the IDisplayFormatter formatting to this individual 
+        /// </summary>
+        /// <returns></returns>
         public AccessorProjection<T, TValue> Formatted()
         {
             _inner = new SingleValueProjection<T>(_inner.AttributeName, context => context.FormattedValueOf(_accessor));
@@ -60,6 +84,11 @@ namespace FubuMVC.Media.Projections
             return this;
         }
 
+        /// <summary>
+        /// Use a Func to transform the property value to another value in the projection
+        /// </summary>
+        /// <param name="formatting"></param>
+        /// <returns></returns>
         public AccessorProjection<T, TValue> FormattedBy(Func<TValue, object> formatting)
         {
             _inner = new SingleValueProjection<T>(_inner.AttributeName, context =>
@@ -76,6 +105,11 @@ namespace FubuMVC.Media.Projections
             return this;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputBuilder"></param>
+        /// <returns></returns>
         public AccessorProjection<T, TValue> WriteUrlFor(Func<TValue, object> inputBuilder)
         {
             return WriteUrlFor((urls, value) =>
@@ -85,6 +119,11 @@ namespace FubuMVC.Media.Projections
             });
         }
 
+        /// <summary>
+        /// Writes the Url that accesses the value of this accessor as the input
+        /// </summary>
+        /// <param name="urlFinder"></param>
+        /// <returns></returns>
         public AccessorProjection<T, TValue> WriteUrlFor(Func<IUrlRegistry, TValue, string> urlFinder)
         {
             _inner = new SingleValueProjection<T>(_inner.AttributeName, context =>
@@ -101,6 +140,10 @@ namespace FubuMVC.Media.Projections
             return this;
         }
 
+        /// <summary>
+        /// Retrieve the attribute name used in the projection
+        /// </summary>
+        /// <returns></returns>
         public string Name()
         {
             return _inner.AttributeName;
