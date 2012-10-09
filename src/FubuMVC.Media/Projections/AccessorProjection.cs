@@ -26,6 +26,22 @@ namespace FubuMVC.Media.Projections
             }
         }
 
+        public AccessorProjection<T, TValue> ProjectWith<TProjector>() where TProjector : IValueProjector<TValue>, new()
+        {
+            return ProjectWith(new TProjector());
+        } 
+
+        public AccessorProjection<T, TValue> ProjectWith(IValueProjector<TValue> projector)
+        {
+            _inner = new ExternallyFormattedValueProjector<T, TValue>(_accessor, projector)
+            {
+                AttributeName = Name()
+            };
+
+            return this;
+
+        } 
+
         public static AccessorProjection<T, TValue> For(Expression<Func<T, TValue>> expression)
         {
             return new AccessorProjection<T, TValue>(ReflectionHelper.GetAccessor(expression));
@@ -90,9 +106,11 @@ namespace FubuMVC.Media.Projections
             return _inner.AttributeName;
         }
 
-        public void Write(IProjectionContext<T> context, IMediaNode node)
+        void IProjection<T>.Write(IProjectionContext<T> context, IMediaNode node)
         {
             _inner.Write(context, node);
         }
     }
+
+
 }

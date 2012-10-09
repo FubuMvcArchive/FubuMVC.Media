@@ -23,7 +23,7 @@ namespace FubuMVC.Media.Testing.Projections
             var context = new ProjectionContext<ComplexValueHolder>(new InMemoryServiceLocator(), target);
 
             var node = new DictionaryMediaNode();
-            projection.Write(context, node);
+            projection.As<IProjection<ComplexValueHolder>>().Write(context, node);
 
             node.Values["Value"].As<IDictionary<string, object>>()["Name"].ShouldEqual("Jeremy");
             node.Values["Value"].As<IDictionary<string, object>>()["Age"].ShouldEqual(38);
