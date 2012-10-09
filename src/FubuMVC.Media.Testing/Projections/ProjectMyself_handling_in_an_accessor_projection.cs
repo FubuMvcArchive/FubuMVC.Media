@@ -28,6 +28,26 @@ namespace FubuMVC.Media.Testing.Projections
             node.Values["Value"].As<IDictionary<string, object>>()["Name"].ShouldEqual("Jeremy");
             node.Values["Value"].As<IDictionary<string, object>>()["Age"].ShouldEqual(38);
         }
+
+        [Test]
+        public void should_just_use_IProjectMyself_Project_in_accessor_projection_can_override_the_attribute_name()
+        {
+            var projection = AccessorProjection<ComplexValueHolder, ComplexValue>.For(x => x.Value);
+            projection.Name("different");
+            
+            var target = new ComplexValueHolder
+            {
+                Value = new ComplexValue { Name = "Jeremy", Age = 38 }
+            };
+
+            var context = new ProjectionContext<ComplexValueHolder>(new InMemoryServiceLocator(), target);
+
+            var node = new DictionaryMediaNode();
+            projection.As<IProjection<ComplexValueHolder>>().Write(context, node);
+
+            node.Values["different"].As<IDictionary<string, object>>()["Name"].ShouldEqual("Jeremy");
+            node.Values["different"].As<IDictionary<string, object>>()["Age"].ShouldEqual(38);
+        }
     }
 
 
