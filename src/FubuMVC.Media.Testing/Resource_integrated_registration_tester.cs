@@ -30,10 +30,19 @@ namespace FubuMVC.Media.Testing
             registry.Actions.IncludeType<RestController1>();
 
             // TODO -- this really needs to be done with a Bottle
-            registry.Policies.Add(new ConnegAttachmentPolicy(new TypePool(Assembly.GetExecutingAssembly())));
+            var typePool = new TypePool();
+            typePool.AddAssembly(Assembly.GetExecutingAssembly());
+
+            registry.Policies.Add(new ConnegAttachmentPolicy(typePool));
             registry.Services<ResourcesServiceRegistry>();
 
-            registry.Media.ApplyContentNegotiationToActions(x => x.HandlerType == typeof (RestController1) && !x.Method.Name.StartsWith("Not"));
+
+            registry.Policies.Add(x => {
+                x.Where.AnyActionMatches(
+                    call => call.HandlerType == typeof (RestController1) && !call.Method.Name.StartsWith("Not"));
+
+                x.Conneg.ApplyConneg();
+            });
 
             theBehaviorGraph = BehaviorGraph.BuildFrom(registry);
             theConnegGraph = new ConnegGraph(theBehaviorGraph);
@@ -183,13 +192,16 @@ namespace FubuMVC.Media.Testing
         {
             var registry = new FubuRegistry();
 
-            var typePool = new TypePool(Assembly.GetExecutingAssembly());
+            var typePool = new TypePool();
+            typePool.AddAssembly(Assembly.GetExecutingAssembly());
 
-            registry.Media.ApplyContentNegotiationToActions(x => true);
+            registry.Policies.Add(x => {
+                x.Conneg.ApplyConneg();
+            });
+
             registry.Policies.Add(new ConnegAttachmentPolicy(typePool));
             registry.Services<ResourcesServiceRegistry>();
 
-            registry.Applies.ToThisAssembly();
             registry.Actions.IncludeType<RestController1>();
 
 

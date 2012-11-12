@@ -21,7 +21,7 @@ namespace FubuMVC.Media
             _inputNodes.OnMissing =
                 type => graph.Behaviors.Where(x => x.InputType() == type).Select(x => x.Input).ToList();
             _outputNodes.OnMissing =
-                type => graph.Behaviors.Where(x => x.ActionOutputType() == type).Select(x => x.Output).ToList();
+                type => graph.Behaviors.Where(x => x.ResourceType() == type).Select(x => x.Output).ToList();
         }
 
         public IEnumerable<OutputNode> OutputNodesFor<T>()

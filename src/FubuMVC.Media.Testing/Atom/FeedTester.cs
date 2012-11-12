@@ -26,8 +26,16 @@ namespace FubuMVC.Media.Testing.Atom
         {
             var registry = new FubuRegistry();
             registry.Actions.IncludeType<Controller1>();
-            registry.Media.ApplyContentNegotiationToActions(call => true);
-            registry.Policies.Add(new ConnegAttachmentPolicy(new TypePool(Assembly.GetExecutingAssembly())));
+
+            registry.Policies.Add(x => {
+                x.Conneg.ApplyConneg();
+            });
+
+
+            var typePool = new TypePool();
+            typePool.AddAssembly(Assembly.GetExecutingAssembly());
+
+            registry.Policies.Add(new ConnegAttachmentPolicy(typePool));
 
             theGraph = BehaviorGraph.BuildFrom(registry);
         }

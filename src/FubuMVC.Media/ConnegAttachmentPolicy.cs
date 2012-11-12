@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FubuMVC.Core;
 using FubuMVC.Core.Registration;
 using FubuMVC.Core.Registration.Nodes;
 using System.Linq;
@@ -8,6 +9,7 @@ using FubuMVC.Core.Resources.Conneg;
 
 namespace FubuMVC.Media
 {
+    [ConfigurationType(ConfigurationType.Conneg)]
     public class ConnegAttachmentPolicy : IConfigurationAction
     {
         private readonly TypePool _types;
