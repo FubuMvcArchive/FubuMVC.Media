@@ -3,7 +3,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using FubuCore;
 using FubuCore.Reflection;
-using FubuMVC.Core.Assets.Files;
 using FubuMVC.Core.Registration.Routes;
 using FubuMVC.Core.Urls;
 
@@ -82,9 +81,5 @@ namespace FubuMVC.Media.Testing
             return UrlFor(typeof(TController), ReflectionHelper.GetMethod(expression), categoryOrHttpMethod);
         }
 
-        public string UrlForAsset(AssetFolder folder, string name)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
