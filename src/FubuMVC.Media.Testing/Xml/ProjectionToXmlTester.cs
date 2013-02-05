@@ -45,6 +45,20 @@ namespace FubuMVC.Media.Testing.Xml
         }
 
         [Test]
+        public void filter()
+        {
+            var projection = new Projection<Address>(DisplayFormatting.RawValues);
+            projection.Value(x => x.Address1);
+            projection.Value(x => x.Address2);
+            projection.Value(x => x.City);
+            projection.Value(x => x.State);
+
+            var filtered = projection.Filter(a => a.Name.StartsWith("A"));
+            filtered.As<IProjection<Address>>().Accessors().Select(x => x.Name)
+                .ShouldHaveTheSameElementsAs("Address1", "Address2");
+        }
+
+        [Test]
         public void write_node_with_inline_writer()
         {
             var projection = new Projection<Address>(DisplayFormatting.RawValues);

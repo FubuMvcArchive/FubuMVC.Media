@@ -23,6 +23,15 @@ namespace FubuMVC.Media.Projections
             _formatting = formatting;
         }
 
+        public Projection<T> Filter(Func<Accessor, bool> filter)
+        {
+            var values = _values.Where(x => x.Accessors().All(filter));
+            var projection = new Projection<T>(_formatting);
+            projection._values.AddRange(values);
+
+            return projection;
+        }
+
         IEnumerable<Accessor> IProjection<T>.Accessors()
         {
             return _values.SelectMany(x => x.Accessors());
