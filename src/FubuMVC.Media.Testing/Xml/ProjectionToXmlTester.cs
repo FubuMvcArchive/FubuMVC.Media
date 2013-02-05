@@ -6,6 +6,7 @@ using FubuMVC.Media.Xml;
 using FubuTestingSupport;
 using NUnit.Framework;
 using Rhino.Mocks;
+using System.Linq;
 
 namespace FubuMVC.Media.Testing.Xml
 {
@@ -28,6 +29,19 @@ namespace FubuMVC.Media.Testing.Xml
 
             aTarget = new SimpleValues<Address>(anAddress);
             aNode = XmlAttCentricMediaNode.ForRoot("root");
+        }
+
+        [Test]
+        public void accessors()
+        {
+            var projection = new Projection<Address>(DisplayFormatting.RawValues);
+            projection.Value(x => x.Address1);
+            projection.Value(x => x.Address2);
+            projection.Value(x => x.City);
+            projection.Value(x => x.State);
+
+            projection.As<IProjection<Address>>().Accessors().Select(x => x.Name)
+                .ShouldHaveTheSameElementsAs("Address1", "Address2", "City", "State");
         }
 
         [Test]

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using FubuCore.Reflection;
 
 namespace FubuMVC.Media.Projections
 {
@@ -17,6 +19,12 @@ namespace FubuMVC.Media.Projections
         {
             var value = Source(context);
             node.SetAttribute(AttributeName, value);
+        }
+
+        public IEnumerable<Accessor> Accessors()
+        {
+            // It's indeterminate anyway
+            yield break;
         }
     }
 }

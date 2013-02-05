@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using FubuCore.Reflection;
 
@@ -36,6 +37,11 @@ namespace FubuMVC.Media.Projections
         {
             Include<TProjection>();
             return this;
+        }
+
+        IEnumerable<Accessor> IProjection<TParent>.Accessors()
+        {
+            yield return _accessor;
         }
 
         void IProjection<TParent>.Write(IProjectionContext<TParent> context, IMediaNode node)

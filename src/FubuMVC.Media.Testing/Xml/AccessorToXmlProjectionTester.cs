@@ -7,6 +7,7 @@ using FubuMVC.Media.Xml;
 using FubuTestingSupport;
 using NUnit.Framework;
 using Rhino.Mocks;
+using System.Linq;
 
 namespace FubuMVC.Media.Testing.Xml
 {
@@ -27,6 +28,14 @@ namespace FubuMVC.Media.Testing.Xml
             });
 
             theMediaNode = XmlAttCentricMediaNode.ForRoot("root");
+        }
+
+        [Test]
+        public void accessors()
+        {
+            theAccessorProjection.As<IProjection<ValueTarget>>().Accessors()
+                                 .Single()
+                                 .ShouldEqual(ReflectionHelper.GetAccessor<ValueTarget>(x => x.Age));
         }
 
         [Test]

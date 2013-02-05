@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using FubuCore;
+using FubuCore.Reflection;
 using FubuMVC.Media.Projections;
 using FubuTestingSupport;
 using NUnit.Framework;
@@ -75,6 +77,11 @@ namespace FubuMVC.Media.Testing.Projections
             {
                 TheTarget = context.Subject;
                 TheNode = node;
+            }
+
+            public IEnumerable<Accessor> Accessors()
+            {
+                throw new System.NotImplementedException();
             }
         }
 

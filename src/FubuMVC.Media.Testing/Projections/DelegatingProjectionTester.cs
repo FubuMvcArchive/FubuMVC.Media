@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using FubuCore;
+using FubuCore.Reflection;
 using FubuMVC.Media.Projections;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -9,6 +11,13 @@ namespace FubuMVC.Media.Testing.Projections
     [TestFixture]
     public class DelegatingProjectionTester
     {
+        [Test]
+        public void accessors()
+        {
+            var projection = new DelegatingProjection<ProjectionModel, FakeProjector>();
+            projection.Accessors().ShouldHaveTheSameElementsAs(new FakeProjector().Accessors());
+        }
+
         [Test]
         public void creates_and_delegates_to_another_projection()
         {
@@ -41,7 +50,8 @@ namespace FubuMVC.Media.Testing.Projections
 
         public class ProjectionModel
         {
-            
+            public string Name { get; set; }
+            public int Count { get; set; }
         }
 
         public class FakeProjector : IProjection<ProjectionModel>
@@ -53,6 +63,12 @@ namespace FubuMVC.Media.Testing.Projections
             {
                 theTarget = context;
                 theNode = node;
+            }
+
+            public IEnumerable<Accessor> Accessors()
+            {
+                yield return ReflectionHelper.GetAccessor<ProjectionModel>(x => x.Count);
+                yield return ReflectionHelper.GetAccessor<ProjectionModel>(x => x.Name);
             }
         }
     }

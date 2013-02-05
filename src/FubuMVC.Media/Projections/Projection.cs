@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using FubuCore.Reflection;
+using System.Linq;
 
 namespace FubuMVC.Media.Projections
 {
@@ -20,6 +21,11 @@ namespace FubuMVC.Media.Projections
         public Projection(DisplayFormatting formatting)
         {
             _formatting = formatting;
+        }
+
+        IEnumerable<Accessor> IProjection<T>.Accessors()
+        {
+            return _values.SelectMany(x => x.Accessors());
         }
 
         public DisplayFormatting Formatting

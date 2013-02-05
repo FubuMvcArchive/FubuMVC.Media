@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FubuCore.Reflection;
 
 namespace FubuMVC.Media.Projections
@@ -24,5 +25,10 @@ namespace FubuMVC.Media.Projections
         }
 
         public string AttributeName { get; set; }
+
+        IEnumerable<Accessor> IProjection<TParent>.Accessors()
+        {
+            yield return _accessor;
+        }
     }
 }

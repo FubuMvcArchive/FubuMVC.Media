@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using FubuCore.Reflection;
 using FubuMVC.Media.Projections;
 using NUnit.Framework;
 using FubuTestingSupport;
 using FubuCore;
+using System.Linq;
 
 namespace FubuMVC.Media.Testing.Projections
 {
@@ -29,6 +31,13 @@ namespace FubuMVC.Media.Testing.Projections
 
                 return node.Values;
             });
+        }
+
+        [Test]
+        public void accessors()
+        {
+            var projection = new ChildProjection<Parent, Child>(x => x.Child, DisplayFormatting.RawValues);
+            projection.As<IProjection<Parent>>().Accessors().Single().ShouldEqual(ReflectionHelper.GetAccessor<Parent>(x => x.Child));
         }
 
         private IDictionary<string, object> theDictionary

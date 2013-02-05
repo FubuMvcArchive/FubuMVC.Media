@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using FubuCore.Reflection;
 using FubuMVC.Core.Urls;
@@ -152,6 +153,11 @@ namespace FubuMVC.Media.Projections
         void IProjection<T>.Write(IProjectionContext<T> context, IMediaNode node)
         {
             _inner.Write(context, node);
+        }
+
+        IEnumerable<Accessor> IProjection<T>.Accessors()
+        {
+            yield return _accessor;
         }
     }
 

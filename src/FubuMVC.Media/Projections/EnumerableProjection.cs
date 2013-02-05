@@ -20,8 +20,16 @@ namespace FubuMVC.Media.Projections
 
             return new EnumerableProjection<TParent, TChild>{
                 ElementSource = c => c.ValueFor(accessor).As<IEnumerable<TChild>>(),
-                NodeName = accessor.Name
+                NodeName = accessor.Name,
+                Accessor = accessor
             };
+        }
+
+        public Accessor Accessor { get; set; }
+
+        IEnumerable<Accessor> IProjection<TParent>.Accessors()
+        {
+            yield return Accessor;
         }
 
         public void UseProjection<TProjection>() where TProjection : IProjection<TChild>

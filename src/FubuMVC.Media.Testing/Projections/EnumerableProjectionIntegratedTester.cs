@@ -1,4 +1,5 @@
 using System.Xml;
+using FubuCore.Reflection;
 using FubuMVC.Core;
 using FubuMVC.Media.Projections;
 using FubuMVC.Media.Xml;
@@ -6,6 +7,8 @@ using FubuMVC.StructureMap;
 using NUnit.Framework;
 using FubuTestingSupport;
 using StructureMap;
+using System.Linq;
+using FubuCore;
 
 namespace FubuMVC.Media.Testing.Projections
 {
@@ -32,6 +35,13 @@ namespace FubuMVC.Media.Testing.Projections
             FubuApplication.For(registry).StructureMap(container).Bootstrap();
 
             runner = container.GetInstance<IProjectionRunner>();
+        }
+
+        [Test]
+        public void accessors()
+        {
+            var projection = EnumerableProjection<Parent, Child>.For(x => x.Children);
+            projection.As<IProjection<Parent>>().Accessors().Single().ShouldEqual(ReflectionHelper.GetAccessor<Parent>(x => x.Children));
         }
 
         public XmlElement write(IProjection<Parent> projection)
