@@ -18,7 +18,7 @@ namespace FubuMVC.Media.Testing.Projections
         private DictionaryMediaNode theNode;
 
         [SetUp]
-        public void SetUp()
+        public new void SetUp()
         {
             theProjection = new TargetProjection();
             theTarget = new Target();

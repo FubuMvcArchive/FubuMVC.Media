@@ -22,22 +22,20 @@ RESULTS_DIR = "results"
 PRODUCT = "FubuMVC.Media"
 COPYRIGHT = 'Copyright 2012 Jeremy D. Miller, et al. All rights reserved.';
 COMMON_ASSEMBLY_INFO = 'src/CommonAssemblyInfo.cs';
+BUILD_DIR = File.expand_path("build")
+ARTIFACTS = File.expand_path("artifacts")
 
-@teamcity_build_id = "bt396"
 tc_build_number = ENV["BUILD_NUMBER"]
 build_revision = tc_build_number || Time.new.strftime('5%H%M')
 BUILD_NUMBER = "#{BUILD_VERSION}.#{build_revision}"
-ARTIFACTS = File.expand_path("artifacts")
 
-props = { :stage => File.expand_path("build"), :artifacts => ARTIFACTS }
+props = { :stage => BUILD_DIR, :artifacts => ARTIFACTS }
 
 desc "**Default**, compiles and runs tests"
 task :default => [:compile, :unit_test]
 
 desc "Target used for the CI server"
 task :ci => [:update_all_dependencies, :default, :history, :package]
-
-
 
 desc "Update the version information for the build"
 assemblyinfo :version do |asm|
@@ -57,17 +55,18 @@ assemblyinfo :version do |asm|
   asm.file_version = BUILD_NUMBER
   asm.custom_attributes :AssemblyInformationalVersion => asm_version
   asm.copyright = COPYRIGHT
-  asm.output_file = COMMON_ASSEMBLY_INFO 
+  asm.output_file = COMMON_ASSEMBLY_INFO
 end
 
 desc "Prepares the working directory for a new build"
-task :clean do
-	#TODO: do any other tasks required to clean/prepare the working directory
+task :clean => [:update_buildsupport] do
+	
 	FileUtils.rm_rf props[:stage]
     # work around nasty latency issue where folder still exists for a short while after it is removed
     waitfor { !exists?(props[:stage]) }
 	Dir.mkdir props[:stage]
     
+	FileUtils.rm_rf props[:artifacts]
 	Dir.mkdir props[:artifacts] unless exists?(props[:artifacts])
 end
 
@@ -80,23 +79,48 @@ def waitfor(&block)
   raise 'waitfor timeout expired' if checks > 10
 end
 
-
 desc "Compiles the app"
-task :compile => [:clean, :restore_if_missing, :version] do
-  MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/FubuMVC.Media.sln', :clrversion => CLR_TOOLS_VERSION 
+task :compile => [:restore_if_missing, :clean, :version] do
+  FileUtils.rm_rf 'src/MediaGridHarness/fubu-content'
+  bottles("assembly-pak src/FubuMVC.Media")
+
+  MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/FubuMVC.Media.sln', :clrversion => CLR_TOOLS_VERSION
+
+  target = COMPILE_TARGET.downcase
 end
 
 def copyOutputFiles(fromDir, filePattern, outDir)
   Dir.glob(File.join(fromDir, filePattern)){|file| 		
-	copy(file, outDir) if File.file?(file)
+	copy(file, outDir, :preserve => true) if File.file?(file)
   } 
 end
 
 desc "Runs unit tests"
 task :test => [:unit_test]
 
-desc "Runs unit tests"
-task :unit_test => :compile do
+desc "Run unit tests"
+task :unit_test do 
   runner = NUnitRunner.new :compilemode => COMPILE_TARGET, :source => 'src', :platform => 'x86'
-  runner.executeTests ['FubuMVC.Media.Testing']
+  tests = Array.new
+  file = File.new("TESTS.txt", "r")
+  assemblies = file.readlines()
+  assemblies.each do |a|
+	test = a.gsub("\r\n", "").gsub("\n", "")
+	tests.push(test)
+  end
+  file.close
+  
+  runner.executeTests tests
 end
+
+def self.bottles(args)
+  bottles = 'src/packages/Bottles/tools/BottleRunner.exe'
+  sh "#{bottles} #{args}"
+end
+
+
+def self.fubu(args)
+  fubu = Platform.runtime("src/fubu/bin/#{COMPILE_TARGET}/fubu.exe")
+  sh "#{fubu} #{args}"
+end
+
