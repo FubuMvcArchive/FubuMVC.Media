@@ -3,7 +3,6 @@ using FubuCore;
 using FubuMVC.Media.Projections;
 using NUnit.Framework;
 using Rhino.Mocks;
-using FubuCore;
 using FubuTestingSupport;
 
 namespace FubuMVC.Media.Testing.Projections
