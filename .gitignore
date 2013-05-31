@@ -23,3 +23,5 @@ src/*/repositories.config
 logs/
 fubu-content
 pak*.zip
+Gemfile.lock
+logs

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ProjectRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TagLine>A member of the Fubu family of projects</TagLine>
+  <Name>FubuMVC.Media</Name>
+  <GitHubPage>http://github.com/DarthFubuMVC/FubuMVC.Media</GitHubPage>
+  <UserGroupUrl>https://groups.google.com/forum/?fromgroups#!forum/fubumvc-devel</UserGroupUrl>
+  <BuildServerUrl>http://build.fubu-project.org/project.html?projectId=[CHANGEME]&amp;tab=projectOverview</BuildServerUrl>
+  <BottleName>FubuMVC.Media.Docs</BottleName>
+  <Nugets>
+    <PublishedNuget>
+      <Name>FubuMVC.Media</Name>
+      <Description>Localization utilities</Description>
+    </PublishedNuget>
+  </Nugets>
+  <Url>fubumvc.media</Url>
+</ProjectRoot>

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FubuMVC.Media", "FubuMVC.Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FubuMVC.Media.Testing", "FubuMVC.Media.Testing\FubuMVC.Media.Testing.csproj", "{EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FubuMVC.Media.Docs", "FubuMVC.Media.Docs\FubuMVC.Media.Docs.csproj", "{843F00A2-8995-4FF0-BD82-15AC89A5E336}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDE9658B-CA66-4CC7-953A-2BEAF27C3EA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{843F00A2-8995-4FF0-BD82-15AC89A5E336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{843F00A2-8995-4FF0-BD82-15AC89A5E336}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{843F00A2-8995-4FF0-BD82-15AC89A5E336}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{843F00A2-8995-4FF0-BD82-15AC89A5E336}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
