@@ -24,6 +24,12 @@ namespace FubuMVC.Media.Projections
             _formatting = formatting;
         }
 
+        /// <summary>
+        /// Create a new Projection with the same formatting but
+        /// filtered data
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public Projection<T> Filter(Func<Accessor, bool> filter)
         {
             var values = _values.Where(x => x.Accessors().All(filter));
@@ -54,6 +60,13 @@ namespace FubuMVC.Media.Projections
             _values.Each(x => x.Write(context, node));
         }
 
+        /// <summary>
+        /// Project a single value from a property on the subject.  Uses the
+        /// accessor name as the node name by default
+        /// </summary>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public AccessorProjection<T, TValue> Value<TValue>(Expression<Func<T, TValue>> expression)
         {
             var value = new AccessorProjection<T, TValue>(ReflectionHelper.GetAccessor(expression));
@@ -68,11 +81,22 @@ namespace FubuMVC.Media.Projections
             return value;
         }
 
+        /// <summary>
+        /// Mix in an existing Projection definition into this one
+        /// </summary>
+        /// <typeparam name="TProjection"></typeparam>
         public void Include<TProjection>() where TProjection : IProjection<T>, new()
         {
             _values.Add(new DelegatingProjection<T, TProjection>());
         }
 
+        /// <summary>
+        /// Project a child node for a complex object represented by a property
+        /// on the subject T type
+        /// </summary>
+        /// <typeparam name="TChild"></typeparam>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public ChildProjection<T, TChild> Child<TChild>(Expression<Func<T, TChild>> expression) where TChild : class
         {
             var child = new ChildProjection<T, TChild>(expression, _formatting);
@@ -81,11 +105,21 @@ namespace FubuMVC.Media.Projections
             return child;
         }
 
+        /// <summary>
+        /// Project special leafs or nodes that don't fall into any of the 
+        /// simple Property/Value patterns 
+        /// </summary>
+        /// <param name="attributeName"></param>
+        /// <returns></returns>
         public SingleLineExpression ForAttribute(string attributeName)
         {
             return new SingleLineExpression(attributeName, this);
         }
 
+        /// <summary>
+        /// Explicitly write values to the projected media
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteWith(Action<IProjectionContext<T>, IMediaNode> writer)
         {
             _values.Add(new LambdaProjection<T>(writer));
@@ -102,12 +136,24 @@ namespace FubuMVC.Media.Projections
                 _parent = parent;
             }
 
+            /// <summary>
+            /// Specify the source of the data to be added to the projection for simple
+            /// key/value pairs
+            /// </summary>
+            /// <param name="source"></param>
             public void Use(Func<IProjectionContext<T>, object> source)
             {
                 var projection = new SingleValueProjection<T>(_attributeName, source);
                 _parent._values.Add(projection);
             }
 
+            /// <summary>
+            /// Specify the source of the data to be added to the projection.  Use this when
+            /// you may need to add extra formatting to the raw value
+            /// </summary>
+            /// <typeparam name="TValue"></typeparam>
+            /// <param name="expression"></param>
+            /// <returns></returns>
             public PropertyExpression<TValue> ValueFrom<TValue>(Expression<Func<T, TValue>> expression)
             {
                 return new PropertyExpression<TValue>(this, ReflectionHelper.GetAccessor(expression));
@@ -124,6 +170,10 @@ namespace FubuMVC.Media.Projections
                     _accessor = accessor;
                 }
 
+                /// <summary>
+                /// Explicit formatting logic
+                /// </summary>
+                /// <param name="source"></param>
                 public void Use(Func<TValue, string> source)
                 {
                     _parent.Use(context =>
@@ -139,6 +189,13 @@ namespace FubuMVC.Media.Projections
                 }
             }
 
+            /// <summary>
+            /// Write a nested object to the projected media using the data returned by the "source"
+            /// argument.  
+            /// </summary>
+            /// <typeparam name="TChild"></typeparam>
+            /// <param name="source"></param>
+            /// <returns></returns>
             public ChildProjection<T, TChild> WriteChild<TChild>(Func<IProjectionContext<T>, TChild> source) where TChild : class
             {
                 var child = new ChildProjection<T, TChild>(_attributeName, source, _parent._formatting);
@@ -147,6 +204,13 @@ namespace FubuMVC.Media.Projections
                 return child;
             }
 
+            /// <summary>
+            /// Write a nested enumeration of nodes to the media based on the data returned by
+            /// the "source" argument.
+            /// </summary>
+            /// <typeparam name="TElement"></typeparam>
+            /// <param name="source"></param>
+            /// <returns></returns>
             public EnumerableExpression<TElement> WriteEnumerable<TElement>(Func<IProjectionContext<T>, IEnumerable<TElement>> source)
             {
                 var enumerable = new EnumerableProjection<T, TElement>
@@ -161,6 +225,13 @@ namespace FubuMVC.Media.Projections
             }
         }
 
+        /// <summary>
+        /// Write a nested enumeration of nodes to the media based on the value of the property
+        /// determined by the "expression" argument
+        /// </summary>
+        /// <typeparam name="TChild"></typeparam>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public EnumerableExpression<TChild> Enumerable<TChild>(Expression<Func<T, IEnumerable<TChild>>> expression)
         {
             var enumerable = EnumerableProjection<T, TChild>.For(expression);
@@ -178,18 +249,33 @@ namespace FubuMVC.Media.Projections
                 _enumerable = enumerable;
             }
 
+            /// <summary>
+            /// Override the node name for the enumeration in the output media
+            /// </summary>
+            /// <param name="nodeName"></param>
+            /// <returns></returns>
             public EnumerableExpression<TChild> NodeName(string nodeName)
             {
                 _enumerable.NodeName = nodeName;
                 return this;
             }
 
+            /// <summary>
+            /// Override the node name for each element of the enumeration within the output media
+            /// </summary>
+            /// <param name="leafName"></param>
+            /// <returns></returns>
             public EnumerableExpression<TChild> LeafName(string leafName)
             {
                 _enumerable.LeafName = leafName;
                 return this;
             }
 
+            /// <summary>
+            /// Mix in a pre-built projection for each element in the enumeration
+            /// </summary>
+            /// <typeparam name="TProjection"></typeparam>
+            /// <returns></returns>
             public EnumerableExpression<TChild> UseProjection<TProjection>() where TProjection : IProjection<TChild>, new()
             {
                 _enumerable.UseProjection<TProjection>();

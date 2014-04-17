@@ -25,23 +25,44 @@ namespace FubuMVC.Media.Projections
             _name = _accessor.Name;
         }
 
+        /// <summary>
+        /// Replace the node name in the projected values for this nested child
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public ChildProjection<TParent, TChild> Name(string name)
         {
             _name = name;
             return this;
         }
-
+        
+        /// <summary>
+        /// Define a projection inline for the TChild object
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public ChildProjection<TParent, TChild> Configure(Action<Projection<TChild>> configuration)
         {
             configuration(this);
             return this;
         }
 
+        /// <summary>
+        /// Explicit mapping of the TChild objects into the media structure.  This is the anything goes, last resort option
+        /// </summary>
+        /// <param name="explicitWriting"></param>
+        /// <returns></returns>
         public ChildProjection<TParent, TChild> With(Action<IProjectionContext<TChild>, IMediaNode> explicitWriting)
         {
             return Configure(x => x.WriteWith(explicitWriting));
         }
 
+        /// <summary>
+        /// Mix in a predefined projection for TChild.  Use this to either reuse a projection or to break up complex
+        /// nested definitions
+        /// </summary>
+        /// <typeparam name="TProjection"></typeparam>
+        /// <returns></returns>
         public ChildProjection<TParent, TChild> With<TProjection>() where TProjection : IProjection<TChild>, new()
         {
             Include<TProjection>();
