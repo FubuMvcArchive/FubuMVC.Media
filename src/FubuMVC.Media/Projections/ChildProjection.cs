@@ -9,10 +9,19 @@ namespace FubuMVC.Media.Projections
     {
         private readonly Accessor _accessor;
         private string _name;
+        private readonly Func<IProjectionContext<TParent>, TChild> _source;
+
+        public ChildProjection(string name, Func<IProjectionContext<TParent>, TChild> source, DisplayFormatting formatting)
+            : base(formatting)
+        {
+            _source = source;
+            _name = name;
+        }
 
         public ChildProjection(Expression<Func<TParent, TChild>> expression, DisplayFormatting formatting) : base(formatting)
         {
             _accessor = ReflectionHelper.GetAccessor(expression);
+            _source = c => c.ValueFor(_accessor) as TChild;
             _name = _accessor.Name;
         }
 
@@ -41,12 +50,12 @@ namespace FubuMVC.Media.Projections
 
         IEnumerable<Accessor> IProjection<TParent>.Accessors()
         {
-            yield return _accessor;
+            if (_accessor != null) yield return _accessor;
         }
 
         void IProjection<TParent>.Write(IProjectionContext<TParent> context, IMediaNode node)
         {
-            var value = context.ValueFor(_accessor) as TChild;
+            var value = _source(context);
             if (value == null) return;
 
             var childNode = node.AddChild(_name);
