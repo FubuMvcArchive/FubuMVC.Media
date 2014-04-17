@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq.Expressions;
 using FubuCore.Reflection;
 using System.Linq;
@@ -137,6 +138,27 @@ namespace FubuMVC.Media.Projections
                     });
                 }
             }
+
+            public ChildProjection<T, TChild> WriteChild<TChild>(Func<IProjectionContext<T>, TChild> source) where TChild : class
+            {
+                var child = new ChildProjection<T, TChild>(_attributeName, source, _parent._formatting);
+                _parent._values.Add(child);
+
+                return child;
+            }
+
+            public EnumerableExpression<TElement> WriteEnumerable<TElement>(Func<IProjectionContext<T>, IEnumerable<TElement>> source)
+            {
+                var enumerable = new EnumerableProjection<T, TElement>
+                {
+                    ElementSource = source,
+                    NodeName = _attributeName
+                };
+
+                _parent._values.Add(enumerable);
+
+                return new EnumerableExpression<TElement>(enumerable);
+            }
         }
 
         public EnumerableExpression<TChild> Enumerable<TChild>(Expression<Func<T, IEnumerable<TChild>>> expression)
@@ -168,7 +190,7 @@ namespace FubuMVC.Media.Projections
                 return this;
             }
 
-            public EnumerableExpression<TChild> UseProjection<TProjection>() where TProjection : IProjection<TChild>
+            public EnumerableExpression<TChild> UseProjection<TProjection>() where TProjection : IProjection<TChild>, new()
             {
                 _enumerable.UseProjection<TProjection>();
                 return this;

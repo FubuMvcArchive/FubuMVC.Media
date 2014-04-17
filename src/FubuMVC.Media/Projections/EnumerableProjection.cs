@@ -32,9 +32,9 @@ namespace FubuMVC.Media.Projections
             yield return Accessor;
         }
 
-        public void UseProjection<TProjection>() where TProjection : IProjection<TChild>
+        public void UseProjection<TProjection>() where TProjection : IProjection<TChild>, new()
         {
-            ProjectionSource = c => c.Service<TProjection>();
+            ProjectionSource = c => new TProjection();
         }
 
         public void DefineProjection(Action<Projection<TChild>> configure)
